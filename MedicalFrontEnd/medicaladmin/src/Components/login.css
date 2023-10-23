@@ -1,0 +1,47 @@
+/* Style the background image */
+body {
+    background-image: url('../../public/HD-wallpaper-doctor-medical.jpg'); /* Replace with your image file path */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh; /* Ensure the background covers the entire viewport height */
+}
+
+/* Style the form container */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Style the form */
+.login-form {
+    width: 380px;
+    height: 400px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+    text-align: center;
+}
+
+/* Style the heading */
+.login-heading {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+}
+
+/* Style form elements */
+.login-input {
+    width: 100%;
+    margin-bottom: auto;
+}
+
+/* Style submit button */
+.login-button {
+    width: 50%;
+    margin-bottom: 15px;
+}
+
