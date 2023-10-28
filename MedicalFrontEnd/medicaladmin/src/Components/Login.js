@@ -22,6 +22,7 @@ function Login() {
     const [successMessage, setSuccessMessage] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
     
+    
 
     const handleChange = (e) => {
         setLoginForm({ ...loginForm, [e.target.name]: e.target.value });
@@ -67,8 +68,6 @@ function Login() {
     // if(sessionExpire === null){
     //     window.location.href = '/';
     // }
-
-
     return (
         <div className="login-container">
             <div className="login-form">
@@ -125,5 +124,4 @@ function Login() {
         </div>
     );
 }
-
 export default Login;
