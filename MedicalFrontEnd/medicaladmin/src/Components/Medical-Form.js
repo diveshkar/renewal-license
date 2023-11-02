@@ -19,34 +19,30 @@ function MedicalForm() {
     //physcial exam
    BMI:'',
    Weight:'',
-   skelpresent:false,
-   skelAbsent:false,
    lims:'',
-   Right: false,
-   Left: false,
    vision:'',
    Hearing:'',
    Pulse:'',
    BloodPressure:'',
-   HmPresent:false,
-   HmAbsent:false,
-   lungPresent:false,
-   lungAbsent:false,
-   stable:false,
-   unstable:false,
-   Normal:false,
-   upNormal:false,
-
    Xray:'',
    Blood:'',
    RBS:'',
 
+   //RadioInput
+   SkelDefuse:null,
+   ProblemInVision:null,
+   HeartMurmus:null,
+   LungDisease:null,
+   PsychologicalStatus:null,
+   CentralNervousSystem:null,
+
   });
 
   const handleChange = (e) => {
-    const { name, value, type , checked} = e.target;
-    if(type === "checkbox"){
-      setFormData({...formData,[name]:checked})
+    const { name, value, type } = e.target;
+    if(type === "radio"){
+        setFormData({...formData, [name]:value})
+       
     }else{
       setFormData({ ...formData, [name]: value });
     }    
@@ -105,7 +101,7 @@ function MedicalForm() {
                   name="BookingId"
                   value={formData.BookingId}
                   onChange={handleChange}
-                  required
+                  // required
                 />
               </div>
               <div className="wd50">
@@ -116,7 +112,7 @@ function MedicalForm() {
                   name="FullName"
                   value={formData.FullName}
                   onChange={handleChange}
-                  required
+                  // required
                   autoFocus
                 />
               </div>
@@ -128,7 +124,7 @@ function MedicalForm() {
                   name="Address"
                   value={formData.Address}
                   onChange={handleChange}
-                  required
+                  // required
                 />
               </div>
             </div>
@@ -141,7 +137,7 @@ function MedicalForm() {
                   name="ExaminationDate"
                   value={formData.ExaminationDate}
                   onChange={handleChange}
-                  required
+                  // required
                 />
               </div>
               <div className="wd50">
@@ -152,7 +148,7 @@ function MedicalForm() {
                   name="phoneNumber"
                   value={formData.phoneNumber}
                   onChange={handleChange}
-                  required
+                  // required
                 />
               </div>
               <div className="wd50">
@@ -163,7 +159,7 @@ function MedicalForm() {
                   name="Age"
                   value={formData.Age}
                   onChange={handleChange}
-                  required
+                  // required
                 />
               </div>
             </div>
@@ -179,7 +175,7 @@ function MedicalForm() {
                   name="NicNumber"
                   value={formData.NicNumber}
                   onChange={handleChange}
-                  required
+                  // required
                 />
               </div>
               <div className="wd50">
@@ -190,7 +186,7 @@ function MedicalForm() {
                   name="DOB"
                   value={formData.DOB}
                   onChange={handleChange}
-                  required
+                  // required
                 />
               </div>
               <div className="wd50">
@@ -233,7 +229,7 @@ function MedicalForm() {
                   name="Pulse"
                   value={formData.Pulse}
                   onChange={handleChange}
-                  required
+                  // required
                 />
               </div>
               
@@ -247,7 +243,7 @@ function MedicalForm() {
                   name="BMI"
                   value={formData.BMI}
                   onChange={handleChange}
-                  required
+                  // required
                 />
               </div>
             </div>
@@ -259,27 +255,29 @@ function MedicalForm() {
               
                 <label>Present</label>
                 <input
-                type="checkbox"
+                type="radio"
                   //id="Present"
                   style={{
                     width: '15px', // Adjust the width as needed
           Pulse: '15px',
                     }}
-                  name="skelpresent"
-                  checked={formData.skelpresent}
+                  name="SkelDefuse"
+                  value="present"
+                  checked={formData.SkelDefuse === "present"}
                   onChange={handleChange}
                   
                   />
                    <label>Absent</label>
                 <input
-                type="checkbox"
+                type="radio"
                 style={{
                   width: '15px', // Adjust the width as needed
         Pulse: '15px',
                   }}
                   //id="Absent"
-                  name="skelAbsent"
-                  checked={formData.skelAbsent}
+                  name="SkelDefuse"
+                  value="Absent"
+                  checked={formData.SkelDefuse === "Absent"}
                   onChange={handleChange}
                   
                   />
@@ -297,7 +295,7 @@ function MedicalForm() {
                   name="lims"
                   value={formData.lims}
                   onChange={handleChange}
-                  required
+                  // required
                 />
                 <br/>
             </div>
@@ -305,34 +303,62 @@ function MedicalForm() {
             
             <div className="wd50">
             <div className="wd50">
-                <label>Vision:     </label>
+                <label>Problem In Vision:     </label>
               
                 <label>Right</label>
                 <input
-                type="checkbox"
+                type="radio"
                   style={{
                     width: '15px', // Adjust the width as needed
-          Pulse: '15px',
+                    Pulse: '15px',
                     }}
-                  name="Right"
-                  checked={formData.Right}
+                  name="ProblemInVision"
+                  value="Right"
+                  checked={formData.ProblemInVision === "Right"}
                   onChange={handleChange}
                   
                   />
                    <label>Left</label>
                 <input
-                type="checkbox"
+                type="radio"
                 style={{
                   width: '15px', // Adjust the width as needed
-        Pulse: '15px',
+                  Pulse: '15px',
                   }}
                  
-                  name="Left"
-                  checked={formData.Left}
+                  name="ProblemInVision"
+                  value="Left"
+                  checked={formData.ProblemInVision === "Left"}
                   onChange={handleChange}
                   
                   />
+                  <label>Both</label>
+                  <input
+                type="radio"
+                  style={{
+                    width: '15px', // Adjust the width as needed
+                    Pulse: '15px',
+                    }}
+                  name="ProblemInVision"
+                  value="Both"
+                  checked={formData.ProblemInVision === "Both"}
+                  onChange={handleChange}
                   
+                  />
+                   <label>None</label>
+                <input
+                type="radio"
+                style={{
+                  width: '15px', // Adjust the width as needed
+                  Pulse: '15px',
+                  }}
+                 
+                  name="None"
+                  value="None"
+                  checked={formData.ProblemInVision === "None"}
+                  onChange={handleChange}
+                  
+                  />
               </div>
               
               
@@ -381,7 +407,7 @@ function MedicalForm() {
                   name="Weight"
                   value={formData.Weight}
                   onChange={handleChange}
-                  required
+                  // required
                 />
               </div>
              
@@ -405,7 +431,7 @@ function MedicalForm() {
                   name="Pulse"
                   value={formData.Pulse}
                   onChange={handleChange}
-                  required
+                  // required
                 />
 
               </div>
@@ -419,7 +445,7 @@ function MedicalForm() {
                   name="BloodPressure"
                   value={formData.BloodPressure}
                   onChange={handleChange}
-                  required
+                  // required
                 />
               </div>
             </div>
@@ -431,26 +457,28 @@ function MedicalForm() {
               
                 <label>Present</label>
                 <input
-                type="checkbox"
+                type="radio"
                   style={{
                     width: '15px', // Adjust the width as needed
           Pulse: '15px',
                     }}
-                  name="HmPresent"
-                  checked={formData.HmPresent}
+                  name="HeartMurmus"
+                  value="Present"
+                  checked={formData.HeartMurmus === "Present"}
                   onChange={handleChange}
                   
                   />
                    <label>Absent</label>
                 <input
-                type="checkbox"
+                type="radio"
                 style={{
                   width: '15px', // Adjust the width as needed
         Pulse: '15px',
                   }}
                  
-                  name="HmAbsent"
-                  checked={formData.HmAbsent}
+                  name="HeartMurmus"
+                  value="Absent"
+                  checked={formData.HeartMurmus === "Absent"}
                   onChange={handleChange}
                   
                   />
@@ -467,27 +495,29 @@ function MedicalForm() {
               
                 <label>Present</label>
                 <input
-                type="checkbox"
+                type="radio"
                   //id="Present"
                   style={{
                     width: '15px', // Adjust the width as needed
           Pulse: '15px',
                     }}
-                  name="lungPresent"
-                  checked={formData.lungPresent}
+                  name="LungDisease"
+                  value="Present"
+                  checked={formData.LungDisease === "Present"}
                   onChange={handleChange}
                   
                   />
                    <label>Absent</label>
                 <input
-                type="checkbox"
+                type="radio"
                 style={{
                   width: '15px', // Adjust the width as needed
         Pulse: '15px',
                   }}
                   //id="Absent"
-                  name="lungAbsent"
-                  checked={formData.lungAbsent}
+                  name="LungDisease"
+                  value="Absent"
+                  checked={formData.LungDisease === "Absent"}
                   onChange={handleChange}
                   
                   />
@@ -501,27 +531,29 @@ function MedicalForm() {
           <div className="wd50">
                 <label>Stable</label>
                 <input
-                type="checkbox"
+                type="radio"
                   
                   style={{
                     width: '15px', // Adjust the width as needed
           Pulse: '15px',
                     }}
-                  name="stable"
-                  checked={formData.stable}
+                  name="PsychologicalStatus"
+                  value="Stable"
+                  checked={formData.PsychologicalStatus === "Stable"}
                   onChange={handleChange}
                   
                   />
                    <label>Unstable</label>
                 <input
-                type="checkbox"
+                type="radio"
                 style={{
                   width: '15px', // Adjust the width as needed
         Pulse: '15px',
                   }}
                   
-                  name="unstable"
-                  checked={formData.unstable}
+                  name="PsychologicalStatus"
+                  value="Unstable"
+                  checked={formData.PsychologicalStatus === "Unstable"}
                   onChange={handleChange}
                   
                   />
@@ -535,27 +567,29 @@ function MedicalForm() {
           <div className="wd50">
                 <label>Normal</label>
                 <input
-                type="checkbox"
+                type="radio"
                   
                   style={{
                     width: '15px', // Adjust the width as needed
           Pulse: '15px',
                     }}
-                  name="Normal"
-                  checked={formData.Normal}
+                  name="CentralNervousSystem"
+                  value="Normal"
+                  checked={formData.CentralNervousSystem === "Normal"}
                   onChange={handleChange}
                   
                   />
-                   <label>Upnormal</label>
+                   <label>UpNormal</label>
                 <input
-                type="checkbox"
+                type="radio"
                 style={{
                   width: '15px', // Adjust the width as needed
         Pulse: '15px',
                   }}
                   
-                  name="upnormal"
-                  checked={formData.upNormal}
+                  name="CentralNervousSystem"
+                  value="UpNormal"
+                  checked={formData.CentralNervousSystem === "UpNormal"}
                   onChange={handleChange}
                   
                   />
@@ -577,7 +611,7 @@ function MedicalForm() {
                   name="RBS"
                   value={formData.RBS}
                   onChange={handleChange}
-                  required
+                  // required
                 />
               </div>
               <div className="wd50">
@@ -588,7 +622,7 @@ function MedicalForm() {
                   name="Xray"
                   value={formData.Xray}
                   onChange={handleChange}
-                  required
+                  // required
                   autoFocus
                 />
               </div>
@@ -602,7 +636,7 @@ function MedicalForm() {
                   name="Blood"
                   value={formData.Blood}
                   onChange={handleChange}
-                  required
+                  // required
                 />
               </div>
              
@@ -661,8 +695,8 @@ function MedicalForm() {
                 <option value="none">None</option>
                 <option value="Spectacle">Must wear Spectacle</option>
                 <option value="Musthearings">Must wear hearings and while driving</option>
-                <option value="medicalexam">Periodic medical Examination required</option>
-                <option value="regulartreat">Regular treatment required</option>
+                {/* <option value="medicalexam">Periodic medical Examination required</option> */}
+                {/* <option value="regulartreat">Regular treatment required</option> */}
                 
               </select>
               </div>
