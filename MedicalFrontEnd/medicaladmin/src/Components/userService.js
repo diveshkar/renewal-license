@@ -1,11 +1,12 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:8080/api/v1/user';
+const API_BASE_ADMIN_URL = 'http://localhost:8080/api/v1/admin';
 
-export const registerUser = (user) => {
-    return axios.post(`${API_BASE_URL}/register`, user);
+
+export const MedicalForm = (MedicalData) => {
+    return axios.post(`${API_BASE_ADMIN_URL}/medicaldata`, MedicalData);
 };
 
-export const loginUser = (user) => {
-    return axios.post(`${API_BASE_URL}/login`, user);
+export const loginUser = (admin) => {
+    return axios.post(`${API_BASE_ADMIN_URL}/login`, admin);
 };

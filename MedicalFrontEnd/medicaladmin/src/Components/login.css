@@ -1,11 +1,5 @@
 /* Style the background image */
-body {
-    background-image: url('../../public/HD-wallpaper-doctor-medical.jpg'); /* Replace with your image file path */
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 100vh; /* Ensure the background covers the entire viewport height */
-}
+
 
 /* Style the form container */
 .login-container {
@@ -13,17 +7,22 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    background-image: url('../../public/HD-wallpaper-doctor-medical.jpg') !important; /* Replace with your image file path */
+    background-size: cover;
+    background-position: center ;
+    background-repeat: no-repeat ;
+    height: 100vh ;
 }
 
 /* Style the form */
 .login-form {
     width: 380px;
     height: 400px;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+    padding: 20px !important;
+    border: 1px solid #ccc !important;
+    border-radius: 5px !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1) !important;
+    background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent white background */
     text-align: center;
 }
 
@@ -37,6 +36,10 @@ body {
 .login-input {
     width: 100%;
     margin-bottom: auto;
+    /* border: 1px solid !important; */
+    border-radius: 5px !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4) !important;
+
 }
 
 /* Style submit button */

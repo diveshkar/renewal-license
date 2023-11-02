@@ -15,8 +15,9 @@ import { loginUser } from './userService';
 
 function Login() {
     const [loginForm, setLoginForm] = useState({
-        "nic": "",
-        "password": ""
+        adminname: "",
+        password: "",
+        role:null
     });
 
     const [successMessage, setSuccessMessage] = useState(null);
@@ -25,8 +26,16 @@ function Login() {
     
 
     const handleChange = (e) => {
-        setLoginForm({ ...loginForm, [e.target.name]: e.target.value });
-    }
+        const { name, value, type, checked } = e.target;
+
+        if (type === 'radio') {
+            if (checked) {
+                setLoginForm({ ...loginForm, role: name});
+            }
+        } else {
+            setLoginForm({ ...loginForm, [name]: value });
+        }
+    };
 
     const styles = {
         alert: {
@@ -40,17 +49,27 @@ function Login() {
 
     const handleLogin = (e) => {
         e.preventDefault();
+        // console.log(loginForm);
         loginUser(loginForm)
             .then((response) => {
                 console.log(response)
-              if (response.data.status === true) {
-                    localStorage.setItem("token" , "response.date.token")
+              if (response.data.status === true && response.data.role === "MedicalAdmin") {
+                    localStorage.setItem("MedicalAdminToken" , "response.data.MedicalAdminToken")
                     // setSessionExpire(session)
                     console.log('User logged in:', response.data);
                     setSuccessMessage(response.data.message);
                     setTimeout(() => {setSuccessMessage(null)}, 50000);
                     window.location.href = '/medical-form'; // Redirect after successful login
                 }
+            else if(response.data.status === true && response.data.role === "RenewalAdmin"){
+                localStorage.setItem("RenewalAdminToken" , "response.data.RenewalAdminToken")
+                // setSessionExpire(session)
+                console.log('User logged in:', response.data);
+                setSuccessMessage(response.data.message);
+                setTimeout(() => {setSuccessMessage(null)}, 50000);
+                window.location.href = '/renewal-admin';
+                
+            }
             else{
                 setErrorMessage(response.data.message);
                 setTimeout(() => setErrorMessage(null), 50000);
@@ -74,11 +93,11 @@ function Login() {
                 <h2 className="login-heading">Login Form</h2>
                 <form onSubmit={handleLogin}>
                 <TextField
-                    label="NIC"
+                    label="AdminName"
                     className="login-input"
                     variant="outlined"
-                    name="nic"
-                    value={loginForm.nic}
+                    name="adminname"
+                    value={loginForm.adminname}
                     style={{ marginTop: '35px', marginBottom: '15px' }}
                     onChange={handleChange}
                 />
@@ -105,6 +124,23 @@ function Login() {
                         onChange={handleChange}
                     />
                 </FormControl>
+                <label>Role:</label><br />
+                <label>RenewalAdmin</label>
+                    <input
+                        type='radio'
+                        name='RenewalAdmin'
+                        checked={loginForm.role === 'RenewalAdmin'} 
+                        onChange={handleChange}
+                    />
+                    <label>MedicalAdmin</label>
+                    <input
+                        type='radio'
+                        name='MedicalAdmin'
+                        checked={loginForm.role === 'MedicalAdmin'} 
+                        onChange={handleChange}
+                    />
+
+
                 <Button variant="contained" endIcon={<SendIcon />} className="login-button" style={{ marginTop: '40px' }} type='submit'>
                     Login
                 </Button>
