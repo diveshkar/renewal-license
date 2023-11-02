@@ -7,9 +7,13 @@ import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import Button from '@mui/material/Button';
+import Radio from '@mui/material/Radio';
 import SendIcon from '@mui/icons-material/Send';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
+import RadioGroup from '@mui/material/RadioGroup';
+import { FormLabel } from '@mui/material';
 import './login.css';
 import { loginUser } from './userService';
 
@@ -49,33 +53,34 @@ function Login() {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        // console.log(loginForm);
-        loginUser(loginForm)
-            .then((response) => {
-                console.log(response)
-              if (response.data.status === true && response.data.role === "MedicalAdmin") {
-                    localStorage.setItem("MedicalAdminToken" , "response.data.MedicalAdminToken")
-                    // setSessionExpire(session)
-                    console.log('User logged in:', response.data);
-                    setSuccessMessage(response.data.message);
-                    setTimeout(() => {setSuccessMessage(null)}, 50000);
-                    window.location.href = '/medical-form'; // Redirect after successful login
-                }
-            else if(response.data.status === true && response.data.role === "RenewalAdmin"){
-                localStorage.setItem("RenewalAdminToken" , "response.data.RenewalAdminToken")
-                // setSessionExpire(session)
-                console.log('User logged in:', response.data);
-                setSuccessMessage(response.data.message);
-                setTimeout(() => {setSuccessMessage(null)}, 50000);
-                window.location.href = '/renewal-admin';
+        console.log(loginForm);
+        // loginUser(loginForm)
+        //     .then((response) => {
+        //         console.log(response)
+        //       if (response.data.status === true && response.data.role === "MedicalAdmin") {
+        //             localStorage.setItem("MedicalAdminToken" , "response.data.MedicalAdminToken")
+        //             // setSessionExpire(session)
+        //             console.log('User logged in:', response.data);
+        //             setSuccessMessage(response.data.message);
+        //             setTimeout(() => {setSuccessMessage(null)}, 50000);
+        //             window.location.href = '/medical-form'; // Redirect after successful login
+        //         }
+        //     else if(response.data.status === true && response.data.role === "RenewalAdmin"){
+        //         localStorage.setItem("RenewalAdminToken" , "response.data.RenewalAdminToken")
+        //         // setSessionExpire(session)
+        //         console.log('User logged in:', response.data);
+        //         setSuccessMessage(response.data.message);
+        //         setTimeout(() => {setSuccessMessage(null)}, 50000);
+        //         window.location.href = '/renewal-admin';
                 
-            }
-            else{
-                setErrorMessage(response.data.message);
-                setTimeout(() => setErrorMessage(null), 50000);
-                window.location.reload();
-            }
-            })
+            // }
+            // else{
+            //     setErrorMessage(response.data.message);
+            //     setTimeout(() => setErrorMessage(null), 50000);
+            //     window.location.reload();
+            // }
+            // }
+            // )
     };
 
     const [showPassword, setShowPassword] = useState(false);
@@ -124,21 +129,22 @@ function Login() {
                         onChange={handleChange}
                     />
                 </FormControl>
-                <label>Role:</label><br />
-                <label>RenewalAdmin</label>
-                    <input
-                        type='radio'
-                        name='RenewalAdmin'
-                        checked={loginForm.role === 'RenewalAdmin'} 
-                        onChange={handleChange}
-                    />
-                    <label>MedicalAdmin</label>
-                    <input
-                        type='radio'
-                        name='MedicalAdmin'
-                        checked={loginForm.role === 'MedicalAdmin'} 
-                        onChange={handleChange}
-                    />
+               
+                {/* <label>Role:</label><br />
+                <label>RenewalAdmin</label> */}
+            <br/><br/>
+           
+                <FormControl>
+      
+      <RadioGroup
+        row
+        aria-labelledby="demo-row-radio-buttons-group-label"
+        name="row-radio-buttons-group"
+      >
+        <FormControlLabel name='RenewalAdmin' checked={loginForm.role === "RenewalAdmin"} control={<Radio />} label="RenewalAdmin" onChange={handleChange} />
+        <FormControlLabel name='MedicalAdmin' checked={loginForm.role === "MedicalAdmin"} control={<Radio />} label="MedicalAdmin" onChange={handleChange}/>
+      </RadioGroup>
+    </FormControl>
 
 
                 <Button variant="contained" endIcon={<SendIcon />} className="login-button" style={{ marginTop: '40px' }} type='submit'>

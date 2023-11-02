@@ -15,6 +15,7 @@ function MedicalForm() {
     DOB:'',
     Age:'',
     sex:'',
+    //image:'',
 
     //physcial exam
    BMI:'',
@@ -40,6 +41,7 @@ function MedicalForm() {
    Xray:'',
    Blood:'',
    RBS:'',
+
 
   });
 
@@ -86,7 +88,7 @@ function MedicalForm() {
         }
     }, [MedicalAdminToken, sessionTimeout])
   
- if(MedicalAdminToken !== null && MedicalAdminToken !== ""){
+ //if(MedicalAdminToken !== null && MedicalAdminToken !== ""){
     return (
         // <div>
         //     <button onClick={logout}>logout</button>
@@ -207,8 +209,24 @@ function MedicalForm() {
                 <option value="others">Others</option>
               </select>
             </div>
+            
             </div>
-          </div>
+            <div className="col50 colright">
+            <div className="wd50">
+                <label htmlFor="image">Upload the image</label>
+                
+                <input
+                  type="alt"
+                  id="image"
+                  name="image"
+                  value={formData.image}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              </div>
+              </div>
+          
   
           <div className="wd100">
             <hr />
@@ -554,7 +572,7 @@ function MedicalForm() {
         Pulse: '15px',
                   }}
                   
-                  name="upnormal"
+                  name="upNormal"
                   checked={formData.upNormal}
                   onChange={handleChange}
                   
@@ -630,7 +648,19 @@ function MedicalForm() {
           </div>
 
           <h3> Recommendations of the Medical Officer</h3>
-          <p>I accept her for driving the follwing vehicles on public highway. </p>
+
+          <p> <input
+                type="checkbox"
+                style={{
+                  width: '15px', // Adjust the width as needed
+        Pulse: '15px',
+                  }}
+                  
+                  name="vechicles "
+                  checked={formData.vehicles}
+                  onChange={handleChange}
+                  
+                  />I accept her for driving the follwing vehicles on public highway. </p>
           <div className="wd30">
           <label htmlFor="">vehicles</label>
               <select
@@ -687,10 +717,10 @@ function MedicalForm() {
   
       )
   }
-  else {
+ // else {
     // login page
-   window.location.href = '/';
-  }
-}
+  // window.location.href = '/';
+ // }
+//}
 
 export default MedicalForm  
