@@ -1,11 +1,9 @@
 package com.finalproject.mvpass.service.impl;
 
 import com.finalproject.mvpass.entity.Admin;
-import com.finalproject.mvpass.entity.User;
 import com.finalproject.mvpass.model.AdminLoginModel;
 import com.finalproject.mvpass.repository.AdminRepository;
 import com.finalproject.mvpass.response.AdminResponse;
-import com.finalproject.mvpass.response.LoginResponse;
 import com.finalproject.mvpass.service.AdminService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,4 +51,5 @@ public class AdminServiceImpl implements AdminService {
                     .body(new AdminResponse("An error occurred during login", false, "","","")).getBody();
         }
     }
+
 }
