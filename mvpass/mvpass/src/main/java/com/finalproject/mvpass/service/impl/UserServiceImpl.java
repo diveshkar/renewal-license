@@ -1,13 +1,16 @@
 package com.finalproject.mvpass.service.impl;
 
+import com.finalproject.mvpass.entity.LicenseData;
 import com.finalproject.mvpass.entity.PasswordResetToken;
 import com.finalproject.mvpass.entity.User;
 import com.finalproject.mvpass.entity.VerificationToken;
 import com.finalproject.mvpass.model.LoginModal;
 import com.finalproject.mvpass.model.UserModel;
+import com.finalproject.mvpass.repository.LicenseDatasRepository;
 import com.finalproject.mvpass.repository.PasswordResetTokenRepository;
 import com.finalproject.mvpass.repository.UserRepository;
 import com.finalproject.mvpass.repository.VerificationTokenRepository;
+import com.finalproject.mvpass.response.ErrorHandle;
 import com.finalproject.mvpass.response.LoginResponse;
 import com.finalproject.mvpass.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -17,10 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -37,22 +37,43 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private LicenseDatasRepository licenseDatasRepository;
     @Override
     public User registerUser(UserModel userModel) {
-        User user = new User(
-                userModel.getUserfname(),
-                userModel.getUserlname(),
-                userModel.getAddress(),
-                userModel.getNic(),
-                userModel.getLicenceno(),
-                userModel.getEmail(),
-                userModel.getGender(),
-                userModel.getMobile(),
-                this.passwordEncoder.encode(userModel.getPassword())
-                        );
-        userRepository.save(user);
-        return user;
+        LicenseData licenseData1 = licenseDatasRepository.findByLicenseNo(userModel.getLicenceno());
+
+        if (licenseData1 != null) {
+            if (userRepository.existsByEmail(userModel.getEmail())) {
+                throw new ErrorHandle("Email is already registered.");
+            }
+            if (userRepository.existsByMobile(userModel.getMobile())) {
+                throw new ErrorHandle("Mobile number is already registered.");
+            }
+
+            User user = new User(
+                    userModel.getUserfname(),
+                    userModel.getUserlname(),
+                    userModel.getAddress(),
+                    userModel.getNic(),
+                    userModel.getLicenceno(),
+                    userModel.getEmail(),
+                    userModel.getGender(),
+                    userModel.getMobile(),
+                    this.passwordEncoder.encode(userModel.getPassword())
+            );
+
+            userRepository.save(user);
+
+            return user;
+        } else {
+            throw new ErrorHandle("Your license number is not eligible for registration.");
+        }
     }
+
+
+
 
     @Override
     public void saveVerificationTokenForUser(String token, User user) {

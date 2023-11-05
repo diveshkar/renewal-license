@@ -7,6 +7,7 @@ import com.finalproject.mvpass.event.RegistrationCompleteEvent;
 import com.finalproject.mvpass.model.LoginModal;
 import com.finalproject.mvpass.model.PasswordModel;
 import com.finalproject.mvpass.model.UserModel;
+import com.finalproject.mvpass.response.ErrorHandle;
 import com.finalproject.mvpass.response.LoginResponse;
 import com.finalproject.mvpass.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,12 +40,16 @@ public class RegistrationController {
 
     @PostMapping("/register")
     public String registerUser(@RequestBody UserModel userModel, final HttpServletRequest request) {
-        User user = userService.registerUser(userModel);
-        publisher.publishEvent(new RegistrationCompleteEvent(
+        try {
+            User user = userService.registerUser(userModel);
+            publisher.publishEvent(new RegistrationCompleteEvent(
                 user,
                 applicationUrl(request)
         ));
-        return "Success, For Verify Click the link inside your Email" + "" + userModel.getEmail();
+                return "Success, For Verify Click the link inside your Email" + " " + userModel.getEmail();
+    } catch (Exception exception){
+                return "Error:" + " " + exception.getMessage();
+        }
     }
 
     @PostMapping("/login")

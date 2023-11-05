@@ -1,8 +1,7 @@
 package com.finalproject.mvpass.controller;
 
-import com.finalproject.mvpass.entity.MedicalForm;
+
 import com.finalproject.mvpass.model.AdminLoginModel;
-import com.finalproject.mvpass.model.MedicalFormModal;
 import com.finalproject.mvpass.response.AdminResponse;
 import com.finalproject.mvpass.service.AdminService;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +18,7 @@ public class AdminLoginController {
 
     @Autowired
     private AdminService adminService;
-    @PostMapping("/login/{adminname}")
+    @PostMapping("/login")
     public ResponseEntity<AdminResponse> AdminLogin(@RequestBody AdminLoginModel adminLoginModel)
     {
         AdminResponse adminResponse = adminService.AdminLogin(adminLoginModel);

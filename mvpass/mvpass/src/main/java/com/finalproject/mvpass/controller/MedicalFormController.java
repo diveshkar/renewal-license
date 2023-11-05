@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("api/v1/admin")
+@RequestMapping("api/v1/admin/medical")
 @Slf4j
 public class MedicalFormController {
 
