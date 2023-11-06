@@ -1,21 +1,22 @@
 import React , {useState} from 'react';
 import { useEffect } from 'react';
 import './Admin-form.css';
+import { LicenseNewUserAdd } from './adminServices';
 
 function AdminForm() {
 
   const [licenseData, setLicenseData] = useState({
     //
-    LicenceNumber: '',
-    NicNumber: '',
-    Name: '',
-    ExaminationDate:new Date(),
-    Address: '',
-    DOB: new Date(),
-    DOI: new Date(),
-    DOE:new Date(),
-    BloodGroup:'',
-
+    licenseNo: '',
+    licenseType:'',
+    nic: '',
+    name: '',
+    photo:"",
+    address: '',
+    dob: new Date(),
+    bloodGroup:'',
+    dateOfIssue: new Date(),
+    dateOfExpiry:new Date(),
   });
 
   const handleChange = (e) => {
@@ -25,6 +26,14 @@ function AdminForm() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    LicenseNewUserAdd(licenseData)
+    .then((response) => {
+      window.alert(response.data);
+  })
+  .catch((error) => {
+      alert.error("An error occurred:", error);
+      
+  });
     
     console.log(licenseData)
   };
@@ -57,91 +66,138 @@ function AdminForm() {
           <div className="col50 colleft">
             <div className="col50 colleft">
             <div className="wd50">
-                <label htmlFor="LicenceNumber">Licence Number</label>
+                <label htmlFor="licenseNo">Licence Number</label>
                 <input
                   type="text"
-                  id="LicenceNumber"
-                  name="LicenceNumber"
-                  value={licenseData.LicenceNumber}
+                  id="licenseNo"
+                  name="licenseNo"
+                  value={licenseData.licenseNo}
                   onChange={handleChange}
                   required
                   autoFocus
                 />
               </div>
+              
+              <div className="wd100">
+                <hr />
+              </div>
+            
+              <div className="wd30">
+              <label htmlFor="">LicenseType</label>
+              <select
+                id="licenseType"
+                name="licenseType"
+                value={licenseData.licenseType}
+                onChange={handleChange}
+              >
+                <option value=""></option>
+                <option value="Mc">Motor cycles <b>A</b></option>
+                <option value="Lmc">Light motor cycles <b>A1</b></option>
+                <option value="Car">All cars/dual purpose <b>B</b></option>
+                <option value="Car">Tricycles/tricycles van <b>B1</b></option>
+                <option value="Car">Land vehicles <b>G</b></option>
+                <option value="Car">Hand tractors <b>G1</b></option>
+              </select>
+              </div>
+
+              <div className="wd100">
+                <hr />
+              </div>
+
               <div className="wd50">
-                <label htmlFor="NicNumber">NIC Number</label>
+                <label htmlFor="nic">NIC Number</label>
                 <input
                   type="text"
-                  id="NicNumber"
-                  name="NicNumber"
-                  value={licenseData.NicNumber}
+                  id="nic"
+                  name="nic"
+                  value={licenseData.nic}
                   onChange={handleChange}
                   required
                   autoFocus
                 />
               </div>
+
+              <div className="wd100">
+                <hr />
+              </div>
+
+
               <div className="wd50">
               <label htmlFor="FullName">Full Name</label>
                 <input
                   type="text"
                   id="FullName"
-                  name="FullName"
-                  value={licenseData.FullName}
+                  name="name"
+                  value={licenseData.name}
                   onChange={handleChange}
                   required
                   autoFocus
                 />
               </div>
+
+              <div className="wd100">
+                <hr />
+              </div>
+
+
               <div className="wd50">
-                <label htmlFor="DOB">Date Of Birth</label>
+              <label htmlFor="Phoyo">Photo</label>
                 <input
-                  type="date"
-                  id="DOB"
-                  name="DOB"
-                  value={licenseData.DOB}
+                  type="file"
+                  id="photo"
+                  name="photo"
+                  value={licenseData.photo}
+                  onChange={handleChange}
+                  
+                  autoFocus
+                />
+              </div>
+
+              <div className="wd100">
+                <hr />
+              </div>
+
+
+              <div className="wd50">
+                <label htmlFor="address">Address</label>
+                <input
+                  type="text"
+                  id="address"
+                  name="address"
+                  value={licenseData.address}
                   onChange={handleChange}
                   required
                 />
               </div>
+
+              <div className="wd100">
+                <hr />
+              </div>
+
+
               <div className="wd50">
-                <label htmlFor="DOI">Date Of Issue</label>
+                <label htmlFor="dob">Date Of Birth</label>
                 <input
                   type="date"
-                  id="DOI"
-                  name="DOI"
-                  value={licenseData.DOI}
+                  id="dob"
+                  name="dob"
+                  value={licenseData.dob}
                   onChange={handleChange}
                   required
                 />
               </div>
-              <div className="wd50">
-                <label htmlFor="DOE">Date Of Expire</label>
-                <input
-                  type="date"
-                  id="DOE"
-                  name="DOE"
-                  value={licenseData.DOE}
-                  onChange={handleChange}
-                  required
-                />
+
+              <div className="wd100">
+                <hr />
               </div>
-            <div className="col50 colright">
-            
-            
-            </div>
-          </div>
-  
-          </div>
-  
-          <div className="wd100">
-            <hr />
-          </div>
-          <div className="wd30">
-          <label htmlFor="">Blood Group</label>
+
+
+              <div className="wd30">
+              <label htmlFor="">BloodGroup</label>
               <select
-                id="blood"
-                name="blood"
-                value={licenseData.Blood}
+                id="bloodGroup"
+                name="bloodGroup"
+                value={licenseData.bloodGroup}
                 onChange={handleChange}
               >
                 <option value=""></option>
@@ -155,7 +211,49 @@ function AdminForm() {
                 <option value="blood">AB- </option>
               </select>
               </div>
-          
+
+              <div className="wd100">
+                <hr />
+              </div>
+
+
+              <div className="wd50">
+                <label htmlFor="dateOfIssue">Date Of Issue</label>
+                <input
+                  type="date"
+                  id="dateOfIssue"
+                  name="dateOfIssue"
+                  value={licenseData.dateOfIssue}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div className="wd100">
+                <hr />
+              </div>
+
+
+              <div className="wd50">
+                <label htmlFor="dateOfExpiry">Date Of Expire</label>
+                <input
+                  type="date"
+                  id="dateOfExpiry"
+                  name="dateOfExpiry"
+                  value={licenseData.dateOfExpiry}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+          </div>
+          </div>
+
+
+          <div className="wd100">
+                <hr />
+              </div>
+
+
           <div className="wd100">
             <button name="submit" type="submit" id="" data-submit="...Sending">
               Submit

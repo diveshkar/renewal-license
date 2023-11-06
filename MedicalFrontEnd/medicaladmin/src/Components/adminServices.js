@@ -14,3 +14,7 @@ export const loginUser = (admin) => {
 export const licenseData = () => {
     return axios.get(`${API_BASE_ADMIN_URL}/renewal/licenseData`)
 };
+
+export const LicenseNewUserAdd = (licenseNewUserData) => {
+    return axios.post(`${API_BASE_ADMIN_URL}/renewal/newLicenseUser`, licenseNewUserData)
+};
