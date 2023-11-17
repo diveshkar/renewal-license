@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User,Long> {
     User findByNic(String nic);
 
-    Optional<User> findOneByNicAndPassword(String nic, String encodedPassword);
+    User findOneByNicAndPassword(String nic, String encodedPassword);
 
     boolean existsByEmail(String email);
 

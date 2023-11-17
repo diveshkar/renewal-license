@@ -5,6 +5,7 @@ import TableComponent from "./Components/License-table"
 import AdminForm from './Components/Admin-form';
 import './App.css';
 import CameraAccess from "./Components/CameraAccess";
+import ImageUploader from "./Components/ImageUploader";
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
          <Route exact path ='/renewal-admin' element={<TableComponent/>}/>
          <Route exact path ='/LicenseData_form' element={<AdminForm/>}/>
          <Route exact path ='/cam' element={<CameraAccess/>}/>
+         <Route exact path ='/hiii' element={<ImageUploader/>}/>
          
 
       </Routes>

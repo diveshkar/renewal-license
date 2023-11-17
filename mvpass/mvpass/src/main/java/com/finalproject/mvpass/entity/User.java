@@ -3,6 +3,8 @@ package com.finalproject.mvpass.entity;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+import org.joda.time.DateTime;
 
 
 @Entity
@@ -14,34 +16,57 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long userid;
 
+    @NotBlank(message = "First name is required")
+    @Size(max = 255, message = "First name cannot be longer than 255 characters")
     @Column(name = "userfname", length = 255, nullable = false)
     private String userfname;
 
+    @NotBlank(message = "Last name is required")
+    @Size(max = 255, message = "Last name cannot be longer than 255 characters")
     @Column(name = "userlname", length = 255, nullable = false)
     private String userlname;
 
+    @NotBlank(message = "Address is required")
+    @Size(max = 255, message = "Address cannot be longer than 255 characters")
     @Column(name = "address", length = 255, nullable = false)
     private String address;
 
+    @NotBlank(message = "NIC is required")
     @Column(name = "NIC", unique = true, nullable = false)
     private String nic;
 
+    @NotBlank(message = "License number is required")
     @Column(name = "LicenseNo", unique = true, nullable = false)
     private String licenceno;
 
+    @Email(message = "Invalid email address")
+    @NotBlank(message = "Email is required")
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
+    @NotBlank(message = "Gender is required")
     @Column(name = "gender", nullable = false)
     private String gender;
 
-    @Column(name = "mobileNo", nullable = false , unique = true)
+    @Min(value = 1000000000, message = "Mobile number must be at least 10 digits")
+    @Column(name = "mobileNo", nullable = false, unique = true)
     private int mobile;
 
-    @Column(name = "Password", nullable = false, unique = true,length = 60)
+    @Pattern(regexp = "^(?=.*[A-Z])(?=.*[!@#$%^&*(),.?\":{}|<>]).{8,}$",
+            message = "Password must be at least 8 characters, including one uppercase letter and one symbol")
+    @NotBlank(message = "Password is required")
+    @Column(name = "Password", nullable = false, unique = true, length = 60)
     private String password;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    private DateTime loginAt;
+    @Temporal(TemporalType.TIMESTAMP)
+    private DateTime createdAt;
+    @Temporal(TemporalType.TIMESTAMP)
+    private DateTime updateAt;
     private String role;
+
+    @AssertTrue(message = "User must be enabled")
     private boolean enabled = false;
 
     public long getUserid() {
@@ -163,6 +188,30 @@ public class User {
         this.enabled = enabled;
     }
 
+    public DateTime getLoginAt() {
+        return loginAt;
+    }
+
+    public void setLoginAt(DateTime loginAt) {
+        this.loginAt = loginAt;
+    }
+
+    public DateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(DateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public DateTime getUpdateAt() {
+        return updateAt;
+    }
+
+    public void setUpdateAt(DateTime updateAt) {
+        this.updateAt = updateAt;
+    }
+
     public User(String userfname, String userlname, String address, String nic, String licenceno, String email, String gender, int mobile, String password) {
         this.userfname = userfname;
         this.userlname = userlname;
@@ -176,5 +225,19 @@ public class User {
     }
 
     public User() {
+    }
+
+    @PrePersist
+    public void before(){
+        DateTime currentDareTime = new DateTime();
+
+        this.createdAt = currentDareTime;
+        this.updateAt = currentDareTime;
+    }
+
+    @PostPersist
+    public void onupdate(){
+        DateTime currentDateTime = new DateTime();
+        this.updateAt = currentDateTime;
     }
 }

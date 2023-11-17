@@ -1,7 +1,10 @@
-import React , {useState} from 'react';
+import React , {useRef, useState} from 'react';
 import { useEffect } from 'react';
 import './medical-form.css';
 import { MedicalDetails } from './adminServices';
+// import {UploadOutlined} from 'antd';
+
+
 
 function MedicalForm() {
 
@@ -10,13 +13,13 @@ function MedicalForm() {
     fullname: '',
     bookId: '',
     examinationDate:new Date(),
-    phoneNumber:null,
+    phoneNumber:0,
     address: '',
-    nicNumber: '',
+    nicNumber: null,
     dob:new Date(),
-    age:null,
+    age:0,
     sex:'',
-    //image:'',
+    licenseImgUrl:null,
 
     //physcial exam
    bmi:'',
@@ -33,6 +36,7 @@ function MedicalForm() {
    vehicles:'',
    special:'',
    height:'',
+   image:null,
 
    //RadioInput
    skelDefuse:null,
@@ -45,61 +49,100 @@ function MedicalForm() {
 
   });
 
+  const [imageURL, setImageURL] = useState('');
+  const inputRef = useRef(null);
   const handleChange = (e) => {
-    const { name, value, type ,checked } = e.target;
+    const { name, value, type ,checked, files } = e.target;
     if(type === "radio"){
         setMedicalFormData({...medicalFormData, [name]:value})
        
     }else if(type === "checkbox"){
        setMedicalFormData({...medicalFormData, [name]:checked})
-    }else{
+    }
+    else if (type === "file") {
+      setMedicalFormData({ ...medicalFormData, [name]: files[0] });
+    
+      if (files[0]) {
+        const reader = new FileReader();
+    
+        reader.onload = () => {
+          // Do something with the reader result, e.g., update state or display the image
+          const imageUrl = reader.result;
+          setImageURL(imageUrl);
+        };
+    
+        reader.readAsDataURL(files[0]);
+      }
+    }     
+    else{
       setMedicalFormData({ ...medicalFormData, [name]: value });
-    }    
+    }   
+  // setMedicalFormData({...medicalFormData, image:files[0]})
   };
 
-
+  // const clearImage = (e) => {
+  //   setMedicalFormData({...medicalFormData, image:''})
+  //   setImageURL(null)
+  
+  //   if(inputRef.current){
+  //     inputRef.current.value = '';
+  //   }
+  
+  //   console.log(medicalFormData);
+  // }
+  const showImg = () =>{
+    const uploadimg = document.querySelector(".licenseImg")
+    // const uploadBUtton = document.getElementById("image")
+    uploadimg.style.display = "flex"
+  }
   const MedicalFormSubmit = (e) => {
-    // e.preventDefault();
-    // console.log(medicalFormData);
+    e.preventDefault();
+    console.log(medicalFormData)
     MedicalDetails(medicalFormData)
         .then((response) => {
-            window.alert(response.data);
+            window.alert(response.data.message);
+            const url = response.data.imageUrl;
+            // setImageURL(url);
+            console.log(url);
+            localStorage.setItem("img",JSON.stringify(url))
         })
         .catch((error) => {
-            alert.error("An error occurred:", error);
+            window.alert("An error occurred:", error);
             
         });
 };
 
   const sessionTimeout = 60 * 60 * 1000;
-  const MedicalAdminToken = localStorage.getItem('MedicalAdminToken')
+  const token = localStorage.getItem('token')
+  const role = localStorage.getItem("role")
   const logout = () => {
         localStorage.clear();
         window.location.href = '/'
 
     }
   useEffect(() => {
-        if (MedicalAdminToken) {
+        if (token) {
             const sessionExpireTimeout = setTimeout(() => {
-                localStorage.removeItem("token");
+                localStorage.clear();
                 window.location.href = '/';     
             }, sessionTimeout);
             return () => clearTimeout(sessionExpireTimeout);
         }
-    }, [MedicalAdminToken, sessionTimeout])
+    }, [token, sessionTimeout])
   
- if(MedicalAdminToken !== null && MedicalAdminToken !== ""){
+ if(role === "MedicalAdmin"){
     return (
         // <div>
         //     <button onClick={logout}>logout</button>
             
         // </div>
         <div className="container">
-        <form className="contact" onSubmit={MedicalFormSubmit}>
+          <h1>{role}</h1>
+        <form className="contact" onSubmit={MedicalFormSubmit} enctype="multipart/form-data">
           <h3>Medical Form</h3>
-          <div className="col50 colleft">
+          <div className="col50 colleft"  >
             <div className="col50 colleft">
-            <div className="wd50">
+            <div className="wd50" >
                 <label htmlFor="bookId">Booked ID</label>
                 <input
                   type="text"
@@ -131,7 +174,7 @@ function MedicalForm() {
                   value={medicalFormData.address}
                   onChange={handleChange}
                   // required
-                />
+                ></textarea>
               </div>
             </div>
             <div className="col50 colright">
@@ -175,7 +218,7 @@ function MedicalForm() {
   
           <div className="col50 colright">
             <div className="col50 colleft">
-            <div className="wd50">
+            <div className="wd50" >
                 <label htmlFor="nicNumber">NIC</label>
                 <input
                   type="text"
@@ -215,35 +258,42 @@ function MedicalForm() {
             </div>
             
             </div>
-            {/* <div className="col50 colright">
-            <div className="wd50">
-                <label htmlFor="image">Upload the image</label>
+            <div className="col50 colright">
+               <img className ="licenseImg" src={imageURL} alt='licenseImage'/>
+               <div className="wd50">
+                {/* <label htmlFor="image">Upload the image</label> */}
+                {/* <div className='imgbtn'>
+                  <div className='subimgbtn1'>
                 
-                <input
+                  </div>
+                  <div className='subimgbtn2'>
+
+                  </div>
+                   
+                </div> */}
+                <br />
+                 <input
                   type="file"
                   id="image"
                   name="image"
-                  value={medicalFormData.image}
                   onChange={handleChange}
+                  ref={inputRef}
+                  onClick={showImg}
+                  
                   // required
-                />
+                /> 
               </div>
-              </div> */}
+               {/* <br />
+               <button onClick={clearImage}>ClearImage</button> */}
+              </div>
               </div>
           
   
           <div className="wd100">
             <hr />
           </div>
-          {/* <div className="wd100">
-            <button name="submit" type="submit" id="" data-submit="...Sending">
-              Submit
-            </button>
-            </div> */}
-
-
-
-          <h3>Physical Examination</h3>
+  
+       <h3>Physical Examination</h3>
           <h4>1. General Exam</h4>
           <div className="col50 colleft">
             <div className="col50 colleft">
@@ -655,15 +705,22 @@ function MedicalForm() {
             </div>
             <div className="col50 colright">
             <div className="wd50">
-                <label htmlFor="blood">blood Group</label>
-                <input
-                  type="text"
-                  id="blood"
-                  name="blood"
-                  value={medicalFormData.blood}
-                  onChange={handleChange}
-                  // required
-                />
+            <label htmlFor="blood">Blood Group</label>
+          <select
+            id="blood"
+            name="blood"
+            value={medicalFormData.blood}
+            onChange={handleChange}
+          >
+            <option value=""></option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+            
+          </select>
               </div>
              
              
@@ -722,7 +779,7 @@ function MedicalForm() {
               </div>
               <br/><br/>
               <div className="wd30">
-          <label htmlFor="">Special Conditions</label>
+          <label htmlFor="Special Conditions">Special Conditions</label>
               <select
                 id="special"
                 name="special"
@@ -753,6 +810,7 @@ function MedicalForm() {
         <div>
           <button onClick={logout}>logout</button>
         </div>
+        {/* <img src="C:/Users/Diveshkar/Desktop/DSC_2202.jpg"  /> */}
       </div>
 
       

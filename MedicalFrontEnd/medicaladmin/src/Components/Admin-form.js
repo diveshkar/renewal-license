@@ -2,6 +2,7 @@ import React , {useState} from 'react';
 import { useEffect } from 'react';
 import './Admin-form.css';
 import { LicenseNewUserAdd } from './adminServices';
+import Navbar from './Navbar';
 
 function AdminForm() {
 
@@ -31,30 +32,31 @@ function AdminForm() {
       window.alert(response.data);
   })
   .catch((error) => {
-      alert.error("An error occurred:", error);
+      window.alert("An error occurred:", error);
       
   });
     
     console.log(licenseData)
   };
   const sessionTimeout = 60 * 60 * 1000;
-  const RenewalAdminToken = localStorage.getItem('RenewalAdminToken')
+  const token = localStorage.getItem('token')
+  const role = localStorage.getItem("role");
   const logout = () => {
         localStorage.clear();
         window.location.href = '/'
 
     }
   useEffect(() => {
-        if (RenewalAdminToken) {
+        if (token) {
             const sessionExpireTimeout = setTimeout(() => {
                 localStorage.clear();
                 window.location.href = '/';     
             }, sessionTimeout);
             return () => clearTimeout(sessionExpireTimeout);
         }
-    }, [RenewalAdminToken, sessionTimeout])
+    }, [token, sessionTimeout])
   
-//  if(RenewalAdminToken !== null && RenewalAdminToken !== ""){
+ if(role === "RenewalAdmin"){
     return (
         // <div>
         //     <button onClick={logout}>logout</button>
@@ -267,16 +269,19 @@ function AdminForm() {
         <div>
           <button onClick={logout}>logout</button>
         </div>
+        <div>
+          <Navbar />
+        </div>
       </div>
 
       
   
       )
-  // }
-  // else {
-  //   // login page
-  //  window.location.href = '/';
-  // }
+  }
+  else {
+    // login page
+   window.location.href = '/';
+  }
 }
 
 export default AdminForm  

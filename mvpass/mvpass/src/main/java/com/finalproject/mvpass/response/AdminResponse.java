@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 public class AdminResponse {
     private String Message;
     private Boolean Status;
-    private String MedicalAdminToken;
-    private String RenewalAdminToken;
+    private String token;
     private String Role;
 }

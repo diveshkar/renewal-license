@@ -2,12 +2,20 @@ package com.finalproject.mvpass.controller;
 
 import com.finalproject.mvpass.entity.MedicalForm;
 import com.finalproject.mvpass.model.MedicalFormModal;
+import com.finalproject.mvpass.response.MedicalFormResponse;
 import com.finalproject.mvpass.service.MedicalFormService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.net.URLConnection;
+import java.util.Date;
 
 @RestController
 @CrossOrigin
@@ -20,8 +28,20 @@ public class MedicalFormController {
     private MedicalFormService medicalFormService;
 
     @PostMapping("/medicaldata")
-    public ResponseEntity<String> saveMedicalData(@RequestBody MedicalFormModal medicalFormModal) {
-        MedicalForm medicalForm = medicalFormService.saveMedicalData(medicalFormModal);
-        return new ResponseEntity<>("Success", HttpStatus.OK);
+    public ResponseEntity<MedicalFormResponse> saveMedicalData(@ModelAttribute MedicalFormModal medicalFormModal, @RequestHeader(value = "Authorization", defaultValue = "") String auth) throws IOException {
+        MultipartFile imageFile = medicalFormModal.getImage();
+//        MultipartFile textFile = (MultipartFile) medicalFormModal;,
+//        Date hi = new Date();
+        MedicalForm medicalForm = medicalFormService.saveMedicalData(medicalFormModal, imageFile);
+        String imageUrl =  medicalForm.getLicenseImgUrl();
+        Resource file = new ClassPathResource("static/images/" + imageUrl);
+        String contentType;
+        contentType = URLConnection.guessContentTypeFromName(file.getFilename());
+        MedicalFormResponse medicalFormResponse = new MedicalFormResponse();
+        medicalFormResponse.setMessage("Success");
+        medicalFormResponse.setImageUrl("http://localhost:8080/" + "src/main/resources/static/images/"+ imageUrl);
+        medicalFormResponse.setContentType(contentType);
+        medicalFormResponse.setImageName(imageUrl);
+        return ResponseEntity.ok().body(medicalFormResponse);
     }
 }

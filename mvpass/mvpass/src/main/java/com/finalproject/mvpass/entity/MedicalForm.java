@@ -103,6 +103,9 @@ public class MedicalForm {
     @Column(name = "height")
     private String height;
 
+    @Column(name = "licenseImgUrl")
+    private String licenseImgUrl;
+
     public Long getMedicalId() {
         return medicalId;
     }
@@ -351,7 +354,15 @@ public class MedicalForm {
         this.height = height;
     }
 
-    public MedicalForm(String fullname, String bookId, Date examinationDate, Long phoneNumber, String address, String nicNumber, Date dob, Long age, String sex, String bmi, String weight, String lims, String vision, String hearing, String pulse, String bloodpressure, String xray, String blood, String rbs, String skelDefuse, String problemInVision, String heartMurmus, String lungDisease, String psychologicalStatus, String centralNervousSystem, Boolean medicalFromApproved, String text, String vehicles, String special, String height) {
+    public String getLicenseImgUrl() {
+        return licenseImgUrl;
+    }
+
+    public void setLicenseImgUrl(String licenseImgUrl) {
+        this.licenseImgUrl = licenseImgUrl;
+    }
+
+    public MedicalForm(String fullname, String bookId, Date examinationDate, Long phoneNumber, String address, String nicNumber, Date dob, Long age, String sex, String bmi, String weight, String lims, String vision, String hearing, String pulse, String bloodpressure, String xray, String blood, String rbs, String skelDefuse, String problemInVision, String heartMurmus, String lungDisease, String psychologicalStatus, String centralNervousSystem, Boolean medicalFromApproved, String text, String vehicles, String special, String height, String licenseImgUrl) {
         this.fullname = fullname;
         this.bookId = bookId;
         this.examinationDate = examinationDate;
@@ -382,6 +393,7 @@ public class MedicalForm {
         this.vehicles = vehicles;
         this.special = special;
         this.height = height;
+        this.licenseImgUrl = licenseImgUrl;
     }
 
     public MedicalForm() {
@@ -421,6 +433,7 @@ public class MedicalForm {
                 ", vehicles='" + vehicles + '\'' +
                 ", special='" + special + '\'' +
                 ", height='" + height + '\'' +
+                ", licenseImgUrl='" + licenseImgUrl + '\'' +
                 '}';
     }
 }

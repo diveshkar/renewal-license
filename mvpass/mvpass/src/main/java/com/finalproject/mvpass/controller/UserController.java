@@ -7,7 +7,6 @@ import com.finalproject.mvpass.event.RegistrationCompleteEvent;
 import com.finalproject.mvpass.model.LoginModal;
 import com.finalproject.mvpass.model.PasswordModel;
 import com.finalproject.mvpass.model.UserModel;
-import com.finalproject.mvpass.response.ErrorHandle;
 import com.finalproject.mvpass.response.LoginResponse;
 import com.finalproject.mvpass.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,7 +26,7 @@ import java.util.UUID;
 @RequestMapping("api/v1/user")
 @CrossOrigin
 @Slf4j
-public class RegistrationController {
+public class UserController {
 
     @Autowired
     private UserService userService;
@@ -53,7 +52,7 @@ public class RegistrationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> LoginUser(@RequestBody LoginModal loginModal)
+    public ResponseEntity<LoginResponse> LoginUser(@RequestBody LoginModal loginModal)
     {
         LoginResponse loginResponse = userService.LoginUser(loginModal);
         return ResponseEntity.ok(loginResponse);

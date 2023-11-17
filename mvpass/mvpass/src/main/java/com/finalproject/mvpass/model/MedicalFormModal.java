@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
@@ -42,5 +43,6 @@ public class MedicalFormModal {
     private String vehicles;
     private String special;
     private String height;
+    private MultipartFile image;
 
 }

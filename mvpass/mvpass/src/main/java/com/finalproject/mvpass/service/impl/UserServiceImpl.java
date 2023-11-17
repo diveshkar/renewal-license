@@ -1,18 +1,16 @@
 package com.finalproject.mvpass.service.impl;
 
-import com.finalproject.mvpass.entity.LicenseData;
-import com.finalproject.mvpass.entity.PasswordResetToken;
-import com.finalproject.mvpass.entity.User;
-import com.finalproject.mvpass.entity.VerificationToken;
+import com.finalproject.mvpass.entity.*;
 import com.finalproject.mvpass.model.LoginModal;
 import com.finalproject.mvpass.model.UserModel;
 import com.finalproject.mvpass.repository.LicenseDatasRepository;
 import com.finalproject.mvpass.repository.PasswordResetTokenRepository;
 import com.finalproject.mvpass.repository.UserRepository;
 import com.finalproject.mvpass.repository.VerificationTokenRepository;
-import com.finalproject.mvpass.response.ErrorHandle;
+import com.finalproject.mvpass.common.ErrorHandle;
 import com.finalproject.mvpass.response.LoginResponse;
 import com.finalproject.mvpass.service.UserService;
+import com.finalproject.mvpass.util.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,6 +38,8 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private LicenseDatasRepository licenseDatasRepository;
+    @Autowired
+    private JwtUtils jwtUtils;
     @Override
     public User registerUser(UserModel userModel) {
         LicenseData licenseData1 = licenseDatasRepository.findByLicenseNo(userModel.getLicenceno());
@@ -65,7 +65,6 @@ public class UserServiceImpl implements UserService {
             );
 
             userRepository.save(user);
-
             return user;
         } else {
             throw new ErrorHandle("Your license number is not eligible for registration.");
@@ -221,32 +220,34 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public LoginResponse LoginUser(LoginModal loginModal) {
-        try {
-            String msg = "";
-            User user1 = userRepository.findByNic(loginModal.getNic());
-            if (user1 != null) {
-                String password = loginModal.getPassword();
-                String encodedPassword = user1.getPassword();
-                boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
-                if (isPwdRight) {
-                    Optional<User> user = userRepository.findOneByNicAndPassword(loginModal.getNic(), encodedPassword);
-                    if (user.isPresent()) {
-                        String token = UUID.randomUUID().toString();
-                        return new LoginResponse("Login Succeed", true , token);
-                    } else {
-                        return new LoginResponse("Login Faild", false , "");
-                    }
+    public LoginResponse LoginUser(LoginModal loginModal) { try {
+        String msg = "";
+        User user1 = userRepository.findByNic(loginModal.getNic());
+        if (user1 != null) {
+            String password = loginModal.getPassword();
+            String encodedPassword = user1.getPassword();
+            boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
+            if (isPwdRight) {
+                User user = userRepository.findOneByNicAndPassword(loginModal.getNic(), encodedPassword);
+                if (user.isEnabled()) {
+                    Admin admin = new Admin();
+                    String token = jwtUtils.generateJwt(user, admin);
+//                    String token = UUID.randomUUID().toString();
+
+                    return new LoginResponse("Login Succeed", true , token);
                 } else {
-                    return new LoginResponse("Password Not Match", false , "");
+                    return new LoginResponse("Login Faild", false , "");
                 }
             } else {
-                return new LoginResponse("NIC Not Exits", false , "");
+                return new LoginResponse("Password Not Match", false , "");
             }
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new LoginResponse("An error occurred during login", false, "")).getBody();
+        } else {
+            return new LoginResponse("NIC Not Exits", false , "");
         }
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(new LoginResponse("An error occurred during login", false, "")).getBody();
+    }
     }
 }
 

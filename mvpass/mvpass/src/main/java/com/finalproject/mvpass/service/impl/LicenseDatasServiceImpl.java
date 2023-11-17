@@ -1,11 +1,9 @@
 package com.finalproject.mvpass.service.impl;
 
-import com.finalproject.mvpass.entity.Admin;
 import com.finalproject.mvpass.entity.LicenseData;
 import com.finalproject.mvpass.model.LicenseNewUserDataModal;
 import com.finalproject.mvpass.repository.LicenseDatasRepository;
-import com.finalproject.mvpass.response.AdminResponse;
-import com.finalproject.mvpass.response.ErrorHandle;
+import com.finalproject.mvpass.common.ErrorHandle;
 import com.finalproject.mvpass.response.LicenseDatasReponse;
 import com.finalproject.mvpass.service.LicenseDatasService;
 import org.springframework.beans.factory.annotation.Autowired;

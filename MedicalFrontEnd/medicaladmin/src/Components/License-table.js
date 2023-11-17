@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Table.css';
 import { licenseData } from './adminServices';
+import Navbar from './Navbar';
 
 const formatDate = (dateString) => {
   const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
@@ -10,10 +11,10 @@ const formatDate = (dateString) => {
 const DataTable = () => {
   const [licenseUsersDatas, setLicenseUsersDatas] = useState([]);
   const sessionTimeout = 60 * 60 * 1000;
-  const RenewalAdminToken = localStorage.getItem('RenewalAdminToken');
+  const token = localStorage.getItem('token');
 
   const logout = () => {
-    localStorage.removeItem('RenewalAdminToken');
+    localStorage.clear();
     window.location.href = '/';
   };
 
@@ -27,7 +28,7 @@ const DataTable = () => {
       }
     };
 
-    if (RenewalAdminToken) {
+    if (token) {
       fetchData();
       const sessionExpireTimeout = setTimeout(() => {
         localStorage.clear();
@@ -35,9 +36,11 @@ const DataTable = () => {
       }, sessionTimeout);
       return () => clearTimeout(sessionExpireTimeout);
     }
-  }, [RenewalAdminToken, sessionTimeout]);
+  }, [token, sessionTimeout]);
 
-  if (RenewalAdminToken !== null && RenewalAdminToken !== "") {
+  const role = localStorage.getItem("role")
+
+  if (role === "RenewalAdmin") {
     return (
       <div className="data-table">
         {licenseUsersDatas.length > 0 ? (
@@ -78,6 +81,10 @@ const DataTable = () => {
         )}
         <div>
           <button onClick={logout}>Logout</button>
+        </div>
+        <div>
+         <Navbar />
+         
         </div>
       </div>
     );
