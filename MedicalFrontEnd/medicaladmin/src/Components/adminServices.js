@@ -51,11 +51,11 @@ export const loginUser = (admin) => {
 };
 
 export const licenseData = () => {
-    return axios.get(`${API_BASE_ADMIN_URL}/renewal/licenseData`)
+    return axios.get(`${API_BASE_ADMIN_URL}/renewal/licenseData`, {headers})
         
 };
 
 export const LicenseNewUserAdd = (licenseNewUserData) => {
-    return axios.post(`${API_BASE_ADMIN_URL}/renewal/newLicenseUser`, licenseNewUserData)
+    return axios.post(`${API_BASE_ADMIN_URL}/renewal/newLicenseUser`, licenseNewUserData , {headers})
         
 };
