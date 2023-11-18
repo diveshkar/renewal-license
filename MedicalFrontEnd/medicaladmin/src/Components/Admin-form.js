@@ -20,9 +20,29 @@ function AdminForm() {
     dateOfExpiry:new Date(),
   });
 
+  const[imageUrl,setImageURL]= useState(null)
+
   const handleChange = (e) => {
-    const { name, value} = e.target;
-      setLicenseData({...licenseData,[name]:value})  
+    const { name, value , type, files } = e.target;
+   if (type === "file") {
+      setLicenseData({ ...licenseData, [name]: files[0] });
+    
+      if (files[0]) {
+        const reader = new FileReader();
+    
+        reader.onload = () => {
+          // Do something with the reader result, e.g., update state or display the image
+          const imageUrl = reader.result;
+          setImageURL(imageUrl);
+        };
+    
+        reader.readAsDataURL(files[0]);
+      }
+    } 
+    else{
+      setLicenseData({...licenseData,[name]:value}) 
+      }
+      
   };
 
   const handleSubmit = (e) => {
@@ -143,16 +163,18 @@ function AdminForm() {
 
 
               <div className="wd50">
-              <label htmlFor="Phoyo">Photo</label>
+              <label htmlFor="Photo">Photo</label>
+              <br />
+              <img src={imageUrl} />
                 <input
                   type="file"
                   id="photo"
                   name="photo"
-                  value={licenseData.photo}
                   onChange={handleChange}
                   
                   autoFocus
                 />
+              
               </div>
 
               <div className="wd100">

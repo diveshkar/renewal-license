@@ -10,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RestController
 @CrossOrigin
@@ -23,8 +26,9 @@ public class LicenseDatasController {
     private JwtUtils jwtUtils;
 
     @PostMapping("/newLicenseUser")
-    public String newLicenseUser(@RequestBody LicenseNewUserDataModal licenseNewUserDataModal, @RequestHeader(value = "Authorization") String auth){
-        LicenseData licenseData = licenseDatasService.newLicenseUser(licenseNewUserDataModal);
+    public String newLicenseUser(@ModelAttribute LicenseNewUserDataModal licenseNewUserDataModal, @RequestHeader(value = "Authorization") String auth) throws IOException {
+        MultipartFile imageFile = licenseNewUserDataModal.getPhoto();
+        LicenseData licenseData = licenseDatasService.newLicenseUser(licenseNewUserDataModal, imageFile);
         return "New License User Added";
     }
     @GetMapping("/licenseData")

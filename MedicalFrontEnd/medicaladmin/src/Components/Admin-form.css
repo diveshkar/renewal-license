@@ -102,6 +102,12 @@ textarea { font-family: 'Work Sans', sans-serif;}
 .pricing-table td:first-child { padding: 5px; text-align: left;}
 .pricing-table tr:nth-child(even) td { background: white;}
 
+.photo {
+	height: 100%;
+	width: 125px;
+	display: none;
+}
+
 @media (min-width: 860px) { 
 	.table-wrapper { overflow: visible; -webkit-box-shadow: none; box-shadow: none;}
 	.table-wrapper:after { content: none;}

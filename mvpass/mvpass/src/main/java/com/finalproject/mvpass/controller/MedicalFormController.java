@@ -9,12 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.net.URLConnection;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Date;
 
 @RestController
@@ -27,6 +30,7 @@ public class MedicalFormController {
     @Autowired
     private MedicalFormService medicalFormService;
 
+
     @PostMapping("/medicaldata")
     public ResponseEntity<MedicalFormResponse> saveMedicalData(@ModelAttribute MedicalFormModal medicalFormModal, @RequestHeader(value = "Authorization", defaultValue = "") String auth) throws IOException {
         MultipartFile imageFile = medicalFormModal.getImage();
@@ -35,13 +39,14 @@ public class MedicalFormController {
         MedicalForm medicalForm = medicalFormService.saveMedicalData(medicalFormModal, imageFile);
         String imageUrl =  medicalForm.getLicenseImgUrl();
         Resource file = new ClassPathResource("static/images/" + imageUrl);
+//        byte[] imagelicense = Files.readAllBytes(Path.of(file.getURI()));
         String contentType;
         contentType = URLConnection.guessContentTypeFromName(file.getFilename());
         MedicalFormResponse medicalFormResponse = new MedicalFormResponse();
         medicalFormResponse.setMessage("Success");
-        medicalFormResponse.setImageUrl("http://localhost:8080/" + "src/main/resources/static/images/"+ imageUrl);
+        medicalFormResponse.setImageUrl("http://localhost:8080/static/images/" + imageUrl);
         medicalFormResponse.setContentType(contentType);
         medicalFormResponse.setImageName(imageUrl);
-        return ResponseEntity.ok().body(medicalFormResponse);
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(medicalFormResponse);
     }
 }

@@ -33,6 +33,7 @@ const headers = {
                 "Authorization": authToken ? authToken : '',
             }
 
+
 export const MedicalDetails = (MedicalData) => {
     const formData = new FormData();
     // formData.append('medicalFormData', JSON.stringify(MedicalData));
@@ -56,6 +57,12 @@ export const licenseData = () => {
 };
 
 export const LicenseNewUserAdd = (licenseNewUserData) => {
-    return axios.post(`${API_BASE_ADMIN_URL}/renewal/newLicenseUser`, licenseNewUserData , {headers})
+    const formData = new FormData();
+    // formData.append('medicalFormData', JSON.stringify(MedicalData));
+    // formData.append('image', MedicalData.image);
+    Object.entries(licenseNewUserData).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+    return axios.post(`${API_BASE_ADMIN_URL}/renewal/newLicenseUser`, formData , {headers})
         
 };
