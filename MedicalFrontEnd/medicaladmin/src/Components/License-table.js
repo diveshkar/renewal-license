@@ -22,6 +22,7 @@ const DataTable = () => {
     const fetchData = async () => {
       try {
         const response = await licenseData();
+        console.log(response)
         setLicenseUsersDatas(response.data.licenseDataList);
       } catch (error) {
         console.error('Error:', error);
@@ -66,7 +67,7 @@ const DataTable = () => {
                   <td>{LicenseUserData.licenseType}</td>
                   <td>{LicenseUserData.nic}</td>
                   <td>{LicenseUserData.name}</td>
-                  <td>{LicenseUserData.photo}</td>
+                  <td><img className = "licensepic" src = {`http://localhost:8080/api/v1/admin/renewal/getImage/${LicenseUserData.photo}`} alt={LicenseUserData.photo} /></td>
                   <td>{LicenseUserData.address}</td>
                   <td>{formatDate(LicenseUserData.dob)}</td>
                   <td>{LicenseUserData.bloodGroup}</td>

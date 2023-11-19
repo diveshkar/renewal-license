@@ -7,6 +7,7 @@ import com.finalproject.mvpass.common.ErrorHandle;
 import com.finalproject.mvpass.response.LicenseDatasReponse;
 import com.finalproject.mvpass.service.LicenseDatasService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,6 +31,8 @@ public class LicenseDatasServiceImpl implements LicenseDatasService {
         LicenseDatasReponse licenseDatasReponse = new LicenseDatasReponse();
         try {
             List<LicenseData> licenseDataList = licenseDatasRepository.findAll();
+//            String licenseimage = licenseDataList.getPhoto();
+//            ByteArrayResource resource = retryImageFromFileStorage(licenseimage);
             licenseDatasReponse.setLicenseDataList(licenseDataList);
         } catch (Exception e) {
             licenseDatasReponse.setMessage("An error occurred while fetching license data.");
@@ -78,6 +81,14 @@ public class LicenseDatasServiceImpl implements LicenseDatasService {
         byte[] imageBytes = imageFile.getBytes();
         Path filePath = Paths.get(FILE_STORAGE_DIRECTORY, filename);
         Files.write(filePath, imageBytes);
+    }
+
+    private ByteArrayResource retryImageFromFileStorage(String filename) throws IOException {
+        Path filePath = Paths.get(FILE_STORAGE_DIRECTORY, filename);
+        byte[] licenseImg = Files.readAllBytes(filePath);
+
+        // Wrap the byte array in a ByteArrayResource
+        return new ByteArrayResource(licenseImg);
     }
 
 }

@@ -41,6 +41,11 @@ public class JwtInterceptor implements HandlerInterceptor {
 
         List<String> PUBLIC_PATHS = Arrays.asList("/api/v1/user/login", "/api/v1/user/register", "/api/v1/admin/login");
 
+        if (request.getRequestURI().startsWith("/api/v1/admin/renewal/getImage/")) {
+            // Continue with the request without authentication check
+            return true;
+        }
+
         if (PUBLIC_PATHS.stream().noneMatch(request.getRequestURI()::contains)) {
                 Claims claims = jwtUtils.verify(auth);
 

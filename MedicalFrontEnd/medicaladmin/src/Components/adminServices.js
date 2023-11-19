@@ -56,6 +56,21 @@ export const licenseData = () => {
         
 };
 
+// export const getPhoto = async (licensePhotoName) => {
+//     try {
+//       const response = await axios.get(`${API_BASE_ADMIN_URL}/renewal/getImage/${licensePhotoName}`, {
+//         headers,
+//         responseType: 'arraybuffer', // Set the responseType to 'arraybuffer'
+//       });
+//       const blob = new Blob([response.data], { type: response.headers['content-type'] });
+//       const url = URL.createObjectURL(blob);
+//       return url;
+//     } catch (error) {
+//       console.error('Error fetching photo:', error);
+//       throw error; 
+//     }
+//   };
+
 export const LicenseNewUserAdd = (licenseNewUserData) => {
     const formData = new FormData();
     // formData.append('medicalFormData', JSON.stringify(MedicalData));

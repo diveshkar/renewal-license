@@ -165,7 +165,7 @@ function AdminForm() {
               <div className="wd50">
               <label htmlFor="Photo">Photo</label>
               <br />
-              <img src={imageUrl} />
+              <img className = "photo" src={imageUrl} />
                 <input
                   type="file"
                   id="photo"
