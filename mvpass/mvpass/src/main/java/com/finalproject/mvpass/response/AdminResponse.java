@@ -11,5 +11,4 @@ public class AdminResponse {
     private String Message;
     private Boolean Status;
     private String token;
-    private String Role;
 }

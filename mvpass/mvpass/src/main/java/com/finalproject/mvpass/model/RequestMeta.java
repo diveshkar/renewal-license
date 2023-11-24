@@ -15,5 +15,6 @@ public class RequestMeta {
     private Object licenceno;
     private Object email;
     private Object adminname;
+    private Object role;
 
 }

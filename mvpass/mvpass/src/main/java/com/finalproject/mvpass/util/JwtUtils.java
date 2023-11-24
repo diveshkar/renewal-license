@@ -6,6 +6,7 @@ import com.finalproject.mvpass.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
@@ -33,10 +34,13 @@ public class JwtUtils {
                 .setIssuedAt(issuedAt)
                 .setExpiration(expiryAt);
 
+
         // optional claims
         claims.put("emailId", user.getEmail());
         claims.put("LicenseNo", user.getLicenceno());
         claims.put("adminname", admin.getAdminname());
+        claims.put("Role", admin.getRole());
+//        claims.put("Status", HttpStatus.valueOf(200));
 
         // generate jwt using claims
         return Jwts.builder()

@@ -38,10 +38,7 @@ const DataTable = () => {
       return () => clearTimeout(sessionExpireTimeout);
     }
   }, [token, sessionTimeout]);
-
-  const role = localStorage.getItem("role")
-
-  if (role === "RenewalAdmin") {
+  
     return (
       <div className="data-table">
         {licenseUsersDatas.length > 0 ? (
@@ -89,10 +86,5 @@ const DataTable = () => {
         </div>
       </div>
     );
-  } else {
-    window.location.href = '/';
-    return null;
-  }
-};
-
+  } 
 export default DataTable;

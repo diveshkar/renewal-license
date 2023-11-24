@@ -35,13 +35,9 @@ public class AdminServiceImpl implements AdminService {
                 String storedPassword = admin1.getAdminpassword();
                 String Role = adminLoginModel.getRole();
                 String StoredRole = admin1.getRole();
-//                boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
                 if (password.equals(storedPassword) && Role.equalsIgnoreCase(StoredRole)) {
                     Admin admin = adminRepository.findOneByAdminnameAndAdminpassword(adminLoginModel.getAdminname(), storedPassword);
-//                        String MedicalAdminToken = UUID.randomUUID().toString();
-//                        String RenewalAdminToken = UUID.randomUUID().toString();
                         AdminResponse adminResponse = new AdminResponse();
-                        adminResponse.setRole(StoredRole);
                         adminResponse.setMessage("Login Succeed");
                         adminResponse.setStatus(true);
                         User user = new User();
@@ -50,14 +46,14 @@ public class AdminServiceImpl implements AdminService {
                         return adminResponse;
 
                 } else {
-                    return new AdminResponse("Password/UserRole Not Match", false , "","");
+                    return new AdminResponse("Password/UserRole Not Match", false , "");
                 }
             } else {
-                return new AdminResponse("AdminName Not Exits", false , "", "");
+                return new AdminResponse("AdminName Not Exits", false , "");
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new AdminResponse("An error occurred during login", false, "","")).getBody();
+                    .body(new AdminResponse("An error occurred during login", false, "")).getBody();
         }
     }
 

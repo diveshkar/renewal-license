@@ -15,7 +15,7 @@ import Alert from '@mui/material/Alert';
 import RadioGroup from '@mui/material/RadioGroup';
 import './login.css';
 import { loginUser } from './adminServices';
-import { JwtPayload } from 'jwt-decode';
+import {jwtDecode } from 'jwt-decode';
 
 function Login() {
     const [loginForm, setLoginForm] = useState({
@@ -52,39 +52,24 @@ function Login() {
     };
 
     const handleLogin = (e) => {
-        e.preventDefault();
-        // console.log(loginForm);
+        // e.preventDefault();
         loginUser(loginForm)
             .then((response) => {
-                
-                // console.log(response)
-              if (response.data.status === true && response.data.role === "MedicalAdmin") {
-                    // console.log('User logged in:', response.data);
-                    setSuccessMessage(response.data.message + " " + response.data.role);
-                    // window.alert(response.data.message);
-                    setTimeout(() => {setSuccessMessage(null)}, 5000);
-                    localStorage.setItem("token", (response.data.token))
-                    localStorage.setItem("role", (response.data.role))
-                    // console.log("Token and role set:", response.data.token, response.data.role);
-                    // window.location.href = '/medical-admin'; 
-                    // window.alert(response.data.medicalAdminToken)
-                }
-            else if(response.data.status === true && response.data.role === "RenewalAdmin"){
-               
-                // console.log('User logged in:', response.data);
-                setSuccessMessage(response.data.message + " " + response.data.role);
-                // window.alert(response.data.message)
+            const Valid = response.data.status;
+            if(Valid){
+                const Token = response.data.token;
+                localStorage.setItem("token" , (Token))
+                const DecodeToken = jwtDecode(Token);
+                console.log(DecodeToken.Role)
+                setSuccessMessage(response.data.message);
                 setTimeout(() => {setSuccessMessage(null)}, 5000);
-                localStorage.setItem("token" , (response.data.token))
-                localStorage.setItem("role", (response.data.role))
-                // window.location.href = '/renewal-admin';
-                console.log("Token and role set:", response.data.token, response.data.role);
-            
-                
-            }
-            else{
+                if(DecodeToken.Role === "MedicalAdmin"){
+                    window.location.href = '/medical-admin';
+                }else{
+                    window.location.href = '/renewal-admin';
+                }
+            }else{
                 setErrorMessage(response.data.message );
-                // window.Error(response.data.message)
                 setTimeout(() => setErrorMessage(null), 50000);
                 window.location.reload();
             }
@@ -98,19 +83,8 @@ function Login() {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
-    // const MedicalAdminToken = localStorage.getItem('MedicalAdminToken')
-    const token = localStorage.getItem('token');
-    const role = localStorage.getItem("role")
    
-    if(token){
-        if(role === "MedicalAdmin"){
-            window.location.href = '/medical-admin';
-        }
-    else{
-            window.location.href = '/renewal-admin';
-        }
-    } 
-    else{
+  
         return (
             <div className="login-container">
                 {/* {MedicalAdminToken} */}
@@ -188,5 +162,4 @@ function Login() {
 
     }
     
-}
 export default Login;

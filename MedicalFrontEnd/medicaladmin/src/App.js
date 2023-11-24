@@ -1,30 +1,53 @@
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from "./Components/Login";
-import {BrowserRouter,Routes, Route} from 'react-router-dom';
 import MedicalForm from "./Components/Medical-Form";
-import TableComponent from "./Components/License-table"
+import TableComponent from "./Components/License-table";
 import AdminForm from './Components/Admin-form';
 import './App.css';
-import CameraAccess from "./Components/CameraAccess";
-import ImageUploader from "./Components/ImageUploader";
-
+// import PrivateRoutes from './Components/PrivateRoute';  
+import { jwtDecode } from 'jwt-decode';
 
 function App() {
-  return (
+    return (
+        <Router>
+              <Routes>
+              <Route path='/medical-admin' element={<MedicalAdmin> <MedicalForm /></MedicalAdmin>} />
+              <Route path='/renewal-admin' element={<RenewalAdmin> <TableComponent /> </RenewalAdmin>} />
+              <Route path='/LicenseData_form' element={<RenewalAdmin> <AdminForm /> </RenewalAdmin>} />
+              <Route exact path='/' element={<Login />} />
+              <Route exact path='*' element = {<h1>404</h1>}/>
+              </Routes>                
+        </Router>
+    );
+}
 
-      <BrowserRouter>
-      <Routes>
-         <Route exact path ='/' element={<Login/>}/>
-         <Route exact path ='/medical-admin' element={<MedicalForm/>}/>
-         <Route exact path ='/renewal-admin' element={<TableComponent/>}/>
-         <Route exact path ='/LicenseData_form' element={<AdminForm/>}/>
-         <Route exact path ='/cam' element={<CameraAccess/>}/>
-         <Route exact path ='/hiii' element={<ImageUploader/>}/>
-         
+function RenewalAdmin({ children }) {
+  if(jwtDecode(localStorage.getItem("token")).Role ==="RenewalAdmin"){
+    return <> {children} </>
+  }
+  else{
+    return (
+      <div>
+      <h1>You do not have access to this page</h1>
+      <Navigate to="/"/>
+      </div>
+    )
+      
+  }
+}
 
-      </Routes>
-      </BrowserRouter>
-    
-  );
+function MedicalAdmin ({children}){
+  if(jwtDecode(localStorage.getItem("token")).Role === "MedicalAdmin"){
+    return <>{children}</>
+  }else{
+    return (
+      <div>
+      <h1>You do not have access to this page</h1>
+      <Navigate to="/"/>
+      </div>
+    )
+  }
 }
 
 export default App;

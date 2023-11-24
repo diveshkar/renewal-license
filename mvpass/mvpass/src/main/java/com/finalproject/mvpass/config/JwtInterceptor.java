@@ -55,12 +55,14 @@ public class JwtInterceptor implements HandlerInterceptor {
                     requestMeta.setLicenceno(claims.get("LicenseNo"));
                     requestMeta.setEmail(claims.get("emailId"));
                     requestMeta.setAdminname(claims.get("adminname"));
+                    requestMeta.setRole(claims.get("Role"));
 
                     // Log the claims
                     logger.info("emailIdObject: {}", requestMeta.getEmail());
                     logger.info("licenseNoObject: {}", requestMeta.getLicenceno());
                     logger.info("nicObject: {}", requestMeta.getNic());
                     logger.info("adminUserNameObject: {}", requestMeta.getAdminname());
+                    logger.info("RoleObject: {}", requestMeta.getRole());
                 }
             }
 

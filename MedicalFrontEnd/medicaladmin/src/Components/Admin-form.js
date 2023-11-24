@@ -60,7 +60,6 @@ function AdminForm() {
   };
   const sessionTimeout = 60 * 60 * 1000;
   const token = localStorage.getItem('token')
-  const role = localStorage.getItem("role");
   const logout = () => {
         localStorage.clear();
         window.location.href = '/'
@@ -76,12 +75,7 @@ function AdminForm() {
         }
     }, [token, sessionTimeout])
   
- if(role === "RenewalAdmin"){
     return (
-        // <div>
-        //     <button onClick={logout}>logout</button>
-            
-        // </div>
         <div className="container">
         <form className="contact" onSubmit={handleSubmit}>
           <h3>User Details</h3>
@@ -165,7 +159,7 @@ function AdminForm() {
               <div className="wd50">
               <label htmlFor="Photo">Photo</label>
               <br />
-              <img className = "photo" src={imageUrl} />
+              <img className = "photo" src={imageUrl} alt='LicenseImages' />
                 <input
                   type="file"
                   id="photo"
@@ -300,10 +294,4 @@ function AdminForm() {
   
       )
   }
-  else {
-    // login page
-   window.location.href = '/';
-  }
-}
-
 export default AdminForm  

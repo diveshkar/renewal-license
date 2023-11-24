@@ -77,22 +77,10 @@ function MedicalForm() {
     else{
       setMedicalFormData({ ...medicalFormData, [name]: value });
     }   
-  // setMedicalFormData({...medicalFormData, image:files[0]})
   };
 
-  // const clearImage = (e) => {
-  //   setMedicalFormData({...medicalFormData, image:''})
-  //   setImageURL(null)
-  
-  //   if(inputRef.current){
-  //     inputRef.current.value = '';
-  //   }
-  
-  //   console.log(medicalFormData);
-  // }
   const showImg = () =>{
     const uploadimg = document.querySelector(".licenseImg")
-    // const uploadBUtton = document.getElementById("image")
     uploadimg.style.display = "flex"
   }
   const MedicalFormSubmit = (e) => {
@@ -114,7 +102,6 @@ function MedicalForm() {
 
   const sessionTimeout = 60 * 60 * 1000;
   const token = localStorage.getItem('token')
-  const role = localStorage.getItem("role")
   const logout = () => {
         localStorage.clear();
         window.location.href = '/'
@@ -129,15 +116,9 @@ function MedicalForm() {
             return () => clearTimeout(sessionExpireTimeout);
         }
     }, [token, sessionTimeout])
-  
- if(role === "MedicalAdmin"){
+
     return (
-        // <div>
-        //     <button onClick={logout}>logout</button>
-            
-        // </div>
         <div className="container">
-          <h1>{role}</h1>
         <form className="contact" onSubmit={MedicalFormSubmit} enctype="multipart/form-data">
           <h3>Medical Form</h3>
           <div className="col50 colleft"  >
@@ -261,16 +242,6 @@ function MedicalForm() {
             <div className="col50 colright">
                <img className ="licenseImg" src={imageURL} alt='licenseImage'/>
                <div className="wd50">
-                {/* <label htmlFor="image">Upload the image</label> */}
-                {/* <div className='imgbtn'>
-                  <div className='subimgbtn1'>
-                
-                  </div>
-                  <div className='subimgbtn2'>
-
-                  </div>
-                   
-                </div> */}
                 <br />
                  <input
                   type="file"
@@ -280,7 +251,7 @@ function MedicalForm() {
                   ref={inputRef}
                   onClick={showImg}
                   
-                  // required
+                  required
                 /> 
               </div>
                {/* <br />
@@ -305,7 +276,7 @@ function MedicalForm() {
                   name="height"
                   value={medicalFormData.height}
                   onChange={handleChange}
-                  // required
+                  required
                 />
               </div>
               
@@ -319,7 +290,7 @@ function MedicalForm() {
                   name="bmi"
                   value={medicalFormData.bmi}
                   onChange={handleChange}
-                  // required
+                  required
                 />
               </div>
             </div>
@@ -371,7 +342,7 @@ function MedicalForm() {
                   name="lims"
                   value={medicalFormData.lims}
                   onChange={handleChange}
-                  // required
+                  required
                 />
                 <br/>
             </div>
@@ -483,7 +454,7 @@ function MedicalForm() {
                   name="weight"
                   value={medicalFormData.weight}
                   onChange={handleChange}
-                  // required
+                  required
                 />
               </div>
              
@@ -507,7 +478,7 @@ function MedicalForm() {
                   name="pulse"
                   value={medicalFormData.pulse}
                   onChange={handleChange}
-                  // required
+                  required
                 />
 
               </div>
@@ -521,7 +492,7 @@ function MedicalForm() {
                   name="bloodpressure"
                   value={medicalFormData.bloodpressure}
                   onChange={handleChange}
-                  // required
+                  required
                 />
               </div>
             </div>
@@ -687,7 +658,7 @@ function MedicalForm() {
                   name="rbs"
                   value={medicalFormData.rbs}
                   onChange={handleChange}
-                  // required
+                  required
                 />
               </div>
               <div className="wd50">
@@ -698,7 +669,7 @@ function MedicalForm() {
                   name="xray"
                   value={medicalFormData.xray}
                   onChange={handleChange}
-                  // required
+                  required
                   autoFocus
                 />
               </div>
@@ -789,9 +760,9 @@ function MedicalForm() {
                 <option value=""></option>
                 <option value="none">None</option>
                 <option value="Spectacle">Must wear Spectacle</option>
-                <option value="Musthearings">Must wear hearings and while driving</option>
-                {/* <option value="medicalexam">Periodic medical Examination required</option> */}
-                {/* <option value="regulartreat">Regular treatment required</option> */}
+                <option value="Mustering">Must wear hearings and while driving</option>
+                <option value="MedicalExam">Periodic medical Examination required</option>
+                <option value="regulartreat">Regular treatment required</option>
                 
               </select>
               </div>
@@ -817,10 +788,5 @@ function MedicalForm() {
   
       )
   }
- else {
-    // login page
-  window.location.href = '/';
- }
-}
 
 export default MedicalForm  

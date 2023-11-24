@@ -238,8 +238,6 @@ public class UserServiceImpl implements UserService {
                 if (user.isEnabled()) {
                     Admin admin = new Admin();
                     String token = jwtUtils.generateJwt(user, admin);
-//                    String token = UUID.randomUUID().toString();
-
                     return new LoginResponse("Login Succeed", true , token);
                 } else {
                     return new LoginResponse("Login Faild", false , "");
