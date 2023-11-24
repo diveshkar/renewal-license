@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MedicalFormRepository extends JpaRepository<MedicalForm,Long> {
+    MedicalForm findByNicNumber(String user);
 }

@@ -47,6 +47,6 @@ public class MedicalFormController {
         medicalFormResponse.setImageUrl("http://localhost:8080/static/images/" + imageUrl);
         medicalFormResponse.setContentType(contentType);
         medicalFormResponse.setImageName(imageUrl);
-        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(medicalFormResponse);
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(medicalFormResponse);
     }
 }

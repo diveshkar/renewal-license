@@ -1,5 +1,6 @@
 package com.finalproject.mvpass.service;
 
+import com.finalproject.mvpass.common.APIResponse;
 import com.finalproject.mvpass.entity.User;
 import com.finalproject.mvpass.entity.VerificationToken;
 import com.finalproject.mvpass.model.LoginModal;
@@ -30,4 +31,6 @@ public interface UserService {
     boolean checkIfValidOldPassword(User user, String oldPassword);
 
     LoginResponse LoginUser(LoginModal loginModal);
+
+    APIResponse mediApprove();
 }

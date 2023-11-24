@@ -1,12 +1,11 @@
 package com.finalproject.mvpass.service.impl;
 
+import com.finalproject.mvpass.common.APIResponse;
 import com.finalproject.mvpass.entity.*;
 import com.finalproject.mvpass.model.LoginModal;
+import com.finalproject.mvpass.model.RequestMeta;
 import com.finalproject.mvpass.model.UserModel;
-import com.finalproject.mvpass.repository.LicenseDatasRepository;
-import com.finalproject.mvpass.repository.PasswordResetTokenRepository;
-import com.finalproject.mvpass.repository.UserRepository;
-import com.finalproject.mvpass.repository.VerificationTokenRepository;
+import com.finalproject.mvpass.repository.*;
 import com.finalproject.mvpass.common.ErrorHandle;
 import com.finalproject.mvpass.response.LoginResponse;
 import com.finalproject.mvpass.service.UserService;
@@ -40,6 +39,13 @@ public class UserServiceImpl implements UserService {
     private LicenseDatasRepository licenseDatasRepository;
     @Autowired
     private JwtUtils jwtUtils;
+
+    @Autowired
+    private MedicalFormRepository medicalFormRepository;
+
+    @Autowired
+    private RequestMeta requestMeta;
+
     @Override
     public User registerUser(UserModel userModel) {
         LicenseData licenseData1 = licenseDatasRepository.findByLicenseNo(userModel.getLicenceno());
@@ -248,6 +254,18 @@ public class UserServiceImpl implements UserService {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(new LoginResponse("An error occurred during login", false, "")).getBody();
     }
+    }
+
+    @Override
+    public APIResponse mediApprove() {
+        String User = requestMeta.getNic().toString();
+        MedicalForm medicalForm1 = medicalFormRepository.findByNicNumber(User);
+        APIResponse apiResponse = new APIResponse();
+        if(medicalForm1.getMedicalFromApproved()){
+                apiResponse.setData(medicalForm1);
+                apiResponse.setStatus(200);
+            }
+        return apiResponse;
     }
 }
 

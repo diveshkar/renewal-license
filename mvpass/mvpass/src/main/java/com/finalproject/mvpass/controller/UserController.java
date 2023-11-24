@@ -1,6 +1,7 @@
 package com.finalproject.mvpass.controller;
 
 
+import com.finalproject.mvpass.common.APIResponse;
 import com.finalproject.mvpass.entity.User;
 import com.finalproject.mvpass.entity.VerificationToken;
 import com.finalproject.mvpass.event.RegistrationCompleteEvent;
@@ -13,6 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -131,6 +133,14 @@ public class UserController {
 
 
     }
+
+    @GetMapping("/medicalApprove")
+    public ResponseEntity<APIResponse> mediApprove(@RequestHeader(value = "Authorization", defaultValue = "") String auth){
+
+        APIResponse apiResponse = userService.mediApprove();
+        return new ResponseEntity<>(apiResponse, HttpStatusCode.valueOf(200));
+    }
+
 
     private void resendVerificationTokenMail(User user, String applicationUrl, VerificationToken verificationToken,String toEmail) {
         String url =
