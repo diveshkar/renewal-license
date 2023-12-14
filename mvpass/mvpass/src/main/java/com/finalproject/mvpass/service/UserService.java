@@ -33,4 +33,5 @@ public interface UserService {
     LoginResponse LoginUser(LoginModal loginModal);
 
     APIResponse mediApprove();
+    APIResponse licenseView();
 }

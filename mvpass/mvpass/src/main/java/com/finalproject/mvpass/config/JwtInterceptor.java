@@ -28,8 +28,6 @@ public class JwtInterceptor implements HandlerInterceptor {
         this.jwtUtils = jwtUtils;
         this.requestMeta = requestMeta;
     }
-
-//    @CrossOrigin
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String auth = request.getHeader("Authorization");
@@ -39,10 +37,9 @@ public class JwtInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        List<String> PUBLIC_PATHS = Arrays.asList("/api/v1/user/login", "/api/v1/user/register", "/api/v1/admin/login");
+        List<String> PUBLIC_PATHS = Arrays.asList("/api/v1/user/login", "/api/v1/user/register", "/api/v1/admin/login","/api/v1/user/resetPassword", "/api/v1/user/savePassword");
 
         if (request.getRequestURI().startsWith("/api/v1/admin/renewal/getImage/")) {
-            // Continue with the request without authentication check
             return true;
         }
 
@@ -65,9 +62,6 @@ public class JwtInterceptor implements HandlerInterceptor {
                     logger.info("RoleObject: {}", requestMeta.getRole());
                 }
             }
-
-
-        // Continue with the request
         return true;
     }
 }

@@ -15,14 +15,16 @@ public class WebClientConfiguration {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
+
         return new BCryptPasswordEncoder();
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/**").permitAll()
-                        .anyRequest().authenticated())
+        return http
+//                .authorizeHttpRequests(auth -> auth
+//                        .requestMatchers("/**").permitAll()
+//                        .anyRequest().authenticated())
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
                 .build();

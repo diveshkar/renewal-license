@@ -130,8 +130,6 @@ public class UserController {
             userService.changePassword(user,passwordModel.getNewPassword());
             return "Password Change Successfully";
         }
-
-
     }
 
     @GetMapping("/medicalApprove")
@@ -140,6 +138,15 @@ public class UserController {
         APIResponse apiResponse = userService.mediApprove();
         return new ResponseEntity<>(apiResponse, HttpStatusCode.valueOf(200));
     }
+
+    @GetMapping("/LicenseView")
+    public ResponseEntity<APIResponse> licenseView(@RequestHeader(value = "Authorization", defaultValue = "") String auth){
+        APIResponse apiResponse = userService.licenseView();
+        return new ResponseEntity<APIResponse>(apiResponse,HttpStatusCode.valueOf(apiResponse.getStatus()));
+    }
+
+
+
 
 
     private void resendVerificationTokenMail(User user, String applicationUrl, VerificationToken verificationToken,String toEmail) {

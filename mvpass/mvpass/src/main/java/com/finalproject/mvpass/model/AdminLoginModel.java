@@ -11,4 +11,6 @@ public class AdminLoginModel {
     private String adminname;
     private String password;
     private String role;
+
+
 }

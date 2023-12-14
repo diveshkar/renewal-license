@@ -265,5 +265,28 @@ public class UserServiceImpl implements UserService {
             }
         return apiResponse;
     }
+
+    @Override
+    public APIResponse licenseView() {
+        String UserLicenseNo = requestMeta.getLicenceno().toString();
+        String UserNicNo = requestMeta.getNic().toString();
+        System.out.println(UserLicenseNo);
+        System.out.println(UserNicNo);
+        LicenseData licenseData = licenseDatasRepository.findByLicenseNoAndNic(UserLicenseNo,UserNicNo);
+        APIResponse apiResponse = new APIResponse();
+        if(licenseData != null){
+            apiResponse.setData(licenseData);
+            apiResponse.setStatus(200);
+
+        }
+        else {
+            apiResponse.setError("No Any License Data");
+            apiResponse.setStatus(401);
+        }
+        return apiResponse;
+
+    }
+
+
 }
 

@@ -218,15 +218,15 @@ function AdminForm() {
                 value={licenseData.bloodGroup}
                 onChange={handleChange}
               >
-                <option value=""></option>
-                <option value="blood">O+ </option>
-                <option value="blood">O- </option>
-                <option value="blood">A+ </option>
-                <option value="blood">A- </option>
-                <option value="blood">B+ </option>
-                <option value="blood">B- </option>
-                <option value="blood">AB+ </option>
-                <option value="blood">AB- </option>
+                  <option value=""></option>
+                  <option value="A+">A+</option>
+                  <option value="A-">A-</option>
+                  <option value="B+">B+</option>
+                  <option value="B-">B-</option>
+                  <option value="O+">O+</option>
+                  <option value="O-">O-</option>
+                  <option value="AB-">AB-</option>
+                  <option value="AB+">AB+</option>
               </select>
               </div>
 
